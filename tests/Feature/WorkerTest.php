@@ -13,7 +13,7 @@ class WorkerTest extends TestCase
     use WithFaker;
 
     /**
-     * A basic feature test example.
+     * @test
      */
     public function testItListsAllWorkers()
     {
@@ -25,6 +25,20 @@ class WorkerTest extends TestCase
             ->assertJsonCount(5, 'data')
             ->assertJsonStructure([
                 'data'
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function testItCreatesAWorker()
+    {
+        $input = ['name' => $this->faker->name];
+
+        $response = $this->json('POST', route('workers.store'), $input);
+        $response->assertStatus(201)
+            ->assertJsonFragment([
+                'name' => $input['name']
             ]);
     }
 }
