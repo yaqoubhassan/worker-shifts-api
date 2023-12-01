@@ -53,8 +53,12 @@ class WorkerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Worker $worker)
     {
-        //
+        $worker->delete();
+
+        return response()->json([
+            'message' => 'Worker deleted'
+        ], 204);
     }
 }
