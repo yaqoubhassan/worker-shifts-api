@@ -13,7 +13,7 @@ class WorkerController extends Controller
      */
     public function index()
     {
-        //
+        return WorkerResource::collection(Worker::all());
     }
 
     /**
