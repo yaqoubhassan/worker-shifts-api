@@ -40,9 +40,14 @@ class WorkerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Worker $worker)
     {
-        //
+        $validatedData = $request->validate(['name' => 'filled|string']);
+
+        $worker->fill($validatedData);
+        $worker->save();
+
+        return new WorkerResource($worker);
     }
 
     /**
