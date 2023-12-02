@@ -69,9 +69,39 @@ class ShiftController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Shift $shift)
     {
-        //
+        $validatedData = $request->validate([
+            'worker_id' => 'filled|exists:workers,id',
+            'start_time' => 'filled|date_format:Y-m-d H:i:s'
+        ]);
+
+
+        //Updating start time automatically updates end time
+        $startTime = $request->start_time ?
+            Carbon::parse($validatedData['start_time']) :
+            Carbon::parse($shift->start_time);
+        $endTime = $request->start_time ?
+            Carbon::parse($validatedData['start_time'])->addHours(8) :
+            Carbon::parse($shift->end_time);
+
+        // Check if the worker already has a shift on this day
+        $existingShifts = Shift::where('worker_id', $validatedData['worker_id'])
+            ->whereDate('start_time', $startTime->format('Y-m-d'))
+            ->where('id', '!=', $shift->id)
+            ->get();
+
+        if ($existingShifts->count() > 0) {
+            return response()->json(['error' => 'Worker already has a shift on this day'], 400);
+        }
+
+        // Update the shift
+        $shift->fill($validatedData);
+        $shift['end_time'] = $endTime;
+
+        $shift->save();
+
+        return new ShiftResource($shift);
     }
 
     /**
