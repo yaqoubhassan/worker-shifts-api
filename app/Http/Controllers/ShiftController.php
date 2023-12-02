@@ -14,7 +14,7 @@ class ShiftController extends Controller
      */
     public function index()
     {
-        //
+        return ShiftResource::collection(Shift::all());
     }
 
     /**
