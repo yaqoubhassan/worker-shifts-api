@@ -107,8 +107,12 @@ class ShiftController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Shift $shift)
     {
-        //
+        $shift->delete();
+
+        return response()->json([
+            'message' => 'Shift deleted'
+        ], 204);
     }
 }
