@@ -55,4 +55,22 @@ class WorkerTest extends TestCase
                 'name' => $worker->name
             ]);
     }
+
+    /**
+     * @test
+     */
+    public function testItUpdatesAParticularWorker()
+    {
+        $worker = Worker::factory()->create([
+            'name' => 'Malik'
+        ]);
+
+        $input = ['name' => 'Hassan'];
+
+        $response = $this->json('PATCH', route('workers.update', $worker), $input);
+        $response->assertOk()
+            ->assertJsonFragment([
+                'name' => $input['name']
+            ]);
+    }
 }
