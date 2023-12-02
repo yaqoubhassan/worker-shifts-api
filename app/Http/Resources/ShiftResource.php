@@ -18,9 +18,9 @@ class ShiftResource extends JsonResource
         return [
             'id' => $this->id,
             'worker_id' => $this->worker_id,
-            'start_time' => Carbon::parse($this->start_time),
-            'end_time' => Carbon::parse($this->end_time),
-            'created_at' => Carbon::parse($this->created_at)
+            'start_time' => Carbon::parse($this->start_time)->format('Y-m-d H:i:s'),
+            'end_time' => Carbon::parse($this->end_time)->format('Y-m-d H:i:s'),
+            'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s')
         ];
     }
 }
