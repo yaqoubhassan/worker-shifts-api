@@ -2,9 +2,13 @@
 
 ## Project Setup
 
-Create a MySQL database and name it "worker_shift_api"
+1. Create a MySQL database and name it "worker_shift_api".
 
-Create a .env file in the root project, copy and paste the content of .env.example into .env, or simply run the command "cp .env.example .env"
+2. Create a `.env` file in the root project. You can copy and paste the content of `.env.example` into `.env`, or simply run the command:
+
+    ```sh
+    cp .env.example .env
+    ```
 
 ## Run the following commands
 
