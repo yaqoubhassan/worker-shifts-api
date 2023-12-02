@@ -93,4 +93,19 @@ class ShiftTest extends TestCase
                 'error' => 'Worker already has a shift on this day'
             ]);
     }
+
+    /**
+     * @test
+     */
+    public function testItShowsAParticularShift()
+    {
+        $shift = Shift::factory()->create();
+
+        $response = $this->json('GET', route('shifts.show', $shift));
+        $response->assertOk()
+            ->assertJsonFragment([
+                'id' => $shift->id,
+                'worker_id' => $shift->worker_id,
+            ]);
+    }
 }
