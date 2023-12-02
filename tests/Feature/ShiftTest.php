@@ -108,4 +108,24 @@ class ShiftTest extends TestCase
                 'worker_id' => $shift->worker_id,
             ]);
     }
+
+    /**
+     * @test
+     */
+    public function testItUpdatesAParticularShift()
+    {
+        $shift = Shift::factory()->create();
+
+        $worker = Worker::factory()->create();
+
+        $input = [
+            'worker_id' => $worker->id
+        ];
+
+        $response = $this->json('PATCH', route('shifts.update', $shift), $input);
+        $response->assertOk()
+            ->assertJsonFragment([
+                'worker_id' => $worker->id,
+            ]);
+    }
 }
