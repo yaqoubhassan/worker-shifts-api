@@ -73,4 +73,18 @@ class WorkerTest extends TestCase
                 'name' => $input['name']
             ]);
     }
+
+    /**
+     * @test
+     */
+    public function testItDeletesAParticularWorker()
+    {
+        $worker = Worker::factory()->create();
+
+        $response = $this->json('DELETE', route('workers.destroy', $worker));
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('workers', [
+            'id' => $worker->id
+        ]);
+    }
 }
