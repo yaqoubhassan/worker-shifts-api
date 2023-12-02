@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ShiftController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WorkerController;
@@ -20,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('workers', WorkerController::class);
+Route::apiResource('shifts', ShiftController::class);
