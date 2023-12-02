@@ -67,4 +67,30 @@ class ShiftTest extends TestCase
                 'error' => 'The selected start time is invalid'
             ]);
     }
+
+    /**
+     * @test
+     */
+    public function testAWokerCannotHaveMoreThanOneShiftInADay()
+    {
+        $worker = Worker::factory()->create();
+
+        Shift::factory()->create([
+            'worker_id' => $worker->id,
+            'start_time' => '2023-04-04 00:00:00',
+            'end_time' => '2023-04-04 08:00:00'
+        ]);
+
+        $input = [
+            'worker_id' => $worker->id,
+            'start_time' => '2023-04-04 16:00:00',
+            'end_time' => '2023-04-05 00:00:00'
+        ];
+
+        $response = $this->json('POST', route('shifts.store'), $input);
+        $response->assertStatus(400)
+            ->assertJsonFragment([
+                'error' => 'Worker already has a shift on this day'
+            ]);
+    }
 }
