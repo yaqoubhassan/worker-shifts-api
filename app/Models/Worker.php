@@ -10,4 +10,9 @@ class Worker extends Model
     use HasFactory;
 
     protected $fillable = ['name'];
+
+    public function shifts()
+    {
+        return $this->hasMany(Shift::class);
+    }
 }
