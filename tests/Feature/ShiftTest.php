@@ -47,4 +47,24 @@ class ShiftTest extends TestCase
                 'worker_id' => $input['worker_id']
             ]);
     }
+
+    /**
+     * @test
+     */
+    public function testAShiftCannotHaveAnInvalidStartTime()
+    {
+        $worker = Worker::factory()->create();
+
+        $input = [
+            'worker_id' => $worker->id,
+            'start_time' => '2023-04-04 12:00:00',
+            'end_time' => '2023-04-04 24:00:00'
+        ];
+
+        $response = $this->json('POST', route('shifts.store'), $input);
+        $response->assertStatus(400)
+            ->assertJsonFragment([
+                'error' => 'The selected start time is invalid'
+            ]);
+    }
 }
