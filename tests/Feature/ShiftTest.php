@@ -128,4 +128,18 @@ class ShiftTest extends TestCase
                 'worker_id' => $worker->id,
             ]);
     }
+
+    /**
+     * @test
+     */
+    public function testItDeletesAParticularShift()
+    {
+        $shift = Shift::factory()->create();
+
+        $response = $this->json('DELETE', route('shifts.destroy', $shift));
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('shifts', [
+            'id' => $shift->id
+        ]);
+    }
 }
