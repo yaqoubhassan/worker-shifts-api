@@ -41,4 +41,18 @@ class WorkerTest extends TestCase
                 'name' => $input['name']
             ]);
     }
+
+    /**
+     * @test
+     */
+    public function testItShowsAParticularWorker()
+    {
+        $worker = Worker::factory()->create();
+
+        $response = $this->json('GET', route('workers.show', $worker));
+        $response->assertOk()
+            ->assertJsonFragment([
+                'name' => $worker->name
+            ]);
+    }
 }
